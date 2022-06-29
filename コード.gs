@@ -8,77 +8,75 @@ function initialization() {
 
   //スプレッドシートを取得
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = spreadsheet.getSheetByName('予定一覧');
-  var sheet_data = spreadsheet.getSheetByName('データ');
+  var sheet_ScheduleList = spreadsheet.getSheetByName('予定一覧');
+  var sheet_Data = spreadsheet.getSheetByName('データ');
 
-  sheet_data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1,/*行範囲(1~)*/1,/*列範囲(1~)*/6).setBackground(color[1][0]);
-  sheet_data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/8,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setBackground(color[1][0]);
-  sheet_data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/10,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setBackground(color[1][0]);
+  sheet_Data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/10,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setBackground(color[1][0]);
 
   //日付の入力規定・表示形式を設定
-  var cell = sheet.getRange(2,1,sheet.getMaxRows()-1,1);
+  var cell = sheet_ScheduleList.getRange(2,1,sheet_ScheduleList.getMaxRows()-1,1);
   var rule = SpreadsheetApp.newDataValidation().requireDate().build();
   cell.setDataValidation(rule);
   cell.setNumberFormat('MM/DD')
 
   //開始・終了時刻の入力規定・表示形式を設定
-  var range = sheet_data.getRange(2,10,sheet.getMaxRows()-1,1);
+  var range = sheet_Data.getRange(2,10,sheet_ScheduleList.getMaxRows()-1,1);
   range.setNumberFormat('@');
-  cell = sheet.getRange(2,2,sheet.getMaxRows()-1,2);
+  cell = sheet_ScheduleList.getRange(2,2,sheet_ScheduleList.getMaxRows()-1,2);
   rule = SpreadsheetApp.newDataValidation().requireValueInRange(range).build();
   cell.setDataValidation(rule);
   cell.setNumberFormat('@');
 
   //参加者の入力規定を設定
-  range = sheet_data.getRange(2,2,sheet.getMaxRows()-1,1);
+  range = sheet_Data.getRange(2,2,sheet_ScheduleList.getMaxRows()-1,1);
   for(var i=0;i<5;i++){
-    cell = sheet.getRange(2,5+3*i,sheet.getMaxRows()-1,1);
+    cell = sheet_ScheduleList.getRange(2,5+3*i,sheet_ScheduleList.getMaxRows()-1,1);
     rule = SpreadsheetApp.newDataValidation().requireValueInRange(range).build();
     cell.setDataValidation(rule);
   }
 
   //活動場所の入力規定を設定
-  range = sheet_data.getRange(2,8,sheet.getMaxRows()-1,1);
-  cell = sheet.getRange(2,4,sheet.getMaxRows()-1,1);
+  range = sheet_Data.getRange(2,8,sheet_ScheduleList.getMaxRows()-1,1);
+  cell = sheet_ScheduleList.getRange(2,4,sheet_ScheduleList.getMaxRows()-1,1);
   rule = SpreadsheetApp.newDataValidation().requireValueInRange(range).build();
   cell.setDataValidation(rule);
 
   values = ['参加','不参加'];
   for(var i=0;i<5;i++){
-    cell = sheet.getRange(2,7+3*i,sheet.getMaxRows()-1,1);
+    cell = sheet_ScheduleList.getRange(2,7+3*i,sheet_ScheduleList.getMaxRows()-1,1);
     rule = SpreadsheetApp.newDataValidation().requireValueInList(values).build();
     cell.setDataValidation(rule);
   }
 
   values = ['募集中','仮決定','連絡済み','終了','中止'];
-  cell = sheet.getRange(2,20,sheet.getMaxRows()-1,1);
+  cell = sheet_ScheduleList.getRange(2,20,sheet_ScheduleList.getMaxRows()-1,1);
   rule = SpreadsheetApp.newDataValidation().requireValueInList(values).build();
   cell.setDataValidation(rule);
 
   
-  sheet.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1,/*行範囲(1~)*/1,/*列範囲(1~)*/4).setBackground(color[1][0]);
+  sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1,/*行範囲(1~)*/1,/*列範囲(1~)*/4).setBackground(color[1][0]);
   for(var i=0;i<5;i++){
-    sheet.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/5+i*3,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setBackground(color[i][0]);
-    sheet.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/6+i*3,/*行範囲(1~)*/1,/*列範囲(1~)*/2).setBackground(color[i][1]);
+    sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/5+i*3,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setBackground(color[i][0]);
+    sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/6+i*3,/*行範囲(1~)*/1,/*列範囲(1~)*/2).setBackground(color[i][1]);
   }
   for(var i=0;i<21;i++){
-    sheet.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setValue(tags[i]);
-    sheet.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setHorizontalAlignment('center');
+    sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setValue(tags[i]);
+    sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setHorizontalAlignment('center');
   }
 
   for(var i=0;i<10;i++){
-    sheet_data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setValue(tags2[i]);
-    sheet_data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setHorizontalAlignment('center');
+    sheet_Data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setValue(tags2[i]);
+    sheet_Data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setHorizontalAlignment('center');
   }
 
   //縦線設定
   var border=[4,7,10,13,16,19];
   for(var i=0;i<6;i++){
-    sheet.getRange(1,border[i],sheet.getMaxRows(),1).setBorder(false, false, false, true, false, false,'black',SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+    sheet_ScheduleList.getRange(1,border[i],sheet_ScheduleList.getMaxRows(),1).setBorder(false, false, false, true, false, false,'black',SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
   }
 
   //横線設定
-  sheet.getRange(1,1,1,21).setBorder(false, null, true, null, null, null,'black',SpreadsheetApp.BorderStyle.SOLID_THICK);
+  sheet_ScheduleList.getRange(1,1,1,21).setBorder(false, null, true, null, null, null,'black',SpreadsheetApp.BorderStyle.SOLID_THICK);
 
 }
 
@@ -87,17 +85,17 @@ function initialization() {
 function process() {
   //スプレッドシートを取得
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = spreadsheet.getSheetByName('予定一覧');
-  var dataLen = sheet.getDataRange().getValues().length;
-  var myRange = sheet.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/dataLen,/*列範囲(1~)*/21);
-  var sheet_s = myRange.getValues();
+  var sheet_ScheduleList = spreadsheet.getSheetByName('予定一覧');
+  var dataLen = sheet_ScheduleList.getDataRange().getValues().length;
+  var range_ScheduleList = sheet_ScheduleList.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/dataLen,/*列範囲(1~)*/21);
+  var value_ScheduleList = range_ScheduleList.getValues();
 
-  var sheet_s_color = myRange.getValues();
-  var sheet_s_font_color = myRange.getValues();
+  var sheet_s_color = range_ScheduleList.getValues();
+  var sheet_s_font_color = range_ScheduleList.getValues();
 
-  var sheet_data = spreadsheet.getSheetByName('データ');
-  var dataLen_data = sheet_data.getDataRange().getValues().length;
-  var myRange_data = sheet_data.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/dataLen_data,/*列範囲(1~)*/6);
+  var sheet_Data = spreadsheet.getSheetByName('データ');
+  var dataLen_data = sheet_Data.getDataRange().getValues().length;
+  var myRange_data = sheet_Data.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/dataLen_data,/*列範囲(1~)*/6);
   var sheet_data_s = myRange_data.getValues();
 
   //色を入れる変数として初期化
@@ -115,25 +113,25 @@ function process() {
 
   //セルの色を設定
   for(var i=0;i<dataLen;i++){
-    if(sheet_s[i][0]!=''){
-      if(sheet_s[i][19]=='募集中'){
+    if(value_ScheduleList[i][0]!=''){
+      if(value_ScheduleList[i][19]=='募集中'){
         for(var j=0;j<21;j++){
           sheet_s_color[i][j]=color[5][0];
         }
-      }else if(sheet_s[i][19]=='仮決定'||sheet_s[i][19]=='連絡済み'){
+      }else if(value_ScheduleList[i][19]=='仮決定'||value_ScheduleList[i][19]=='連絡済み'){
         for(var j=0;j<21;j++){
           sheet_s_color[i][j]=color[5][1];
         }
-      }else if(sheet_s[i][19]=='終了'){
+      }else if(value_ScheduleList[i][19]=='終了'){
         for(var j=0;j<21;j++){
           sheet_s_color[i][j]=color[6][0];
         }
-      }else if(sheet_s[i][19]=='中止'){
+      }else if(value_ScheduleList[i][19]=='中止'){
         for(var j=0;j<21;j++){
           sheet_s_color[i][j]=color[6][1];
         }
         for(var j=0;j<5;j++){
-          sheet_s[i][6+j*3]='不参加';
+          value_ScheduleList[i][6+j*3]='不参加';
         }
       }
     }
@@ -146,7 +144,7 @@ function process() {
     if(name!=''){
       for(var j=0;j<dataLen;j++){
         for(var k=0;k<5;k++){
-          if(name==sheet_s[j][4+k*3]&&sheet_s[j][6+k*3]=='参加'){
+          if(name==value_ScheduleList[j][4+k*3]&&value_ScheduleList[j][6+k*3]=='参加'){
             sheet_s_font_color[j][4+k*3]='white';
             count++;
           }
@@ -164,7 +162,7 @@ function process() {
   for(var i=0;i<dataLen;i++){
     var nums=[-1,-1,-1,-1,-1];
     for(var j=0;j<5;j++){
-      var name = sheet_s[i][4+j*3];
+      var name = value_ScheduleList[i][4+j*3];
       if(name != ''){
         for(var k=0;k<dataLen_data;k++){
           if(sheet_data_s[k][1]==name){
@@ -183,20 +181,20 @@ function process() {
         }
       }
       if(nums[l]!=-1){
-        sheet_s[i][5+l*3]=rank+'位';
+        value_ScheduleList[i][5+l*3]=rank+'位';
       }
     }
   }
 
   //文章書き込み処理
   for(var i=0;i<dataLen;i++){
-    if(sheet_s[i][0]!=''){
-      var dates=new Date(sheet_s[i][0]);
+    if(value_ScheduleList[i][0]!=''){
+      var dates=new Date(value_ScheduleList[i][0]);
       var sentece=(dates.getMonth()+1)+'/'+dates.getDate()+'('+arr_day[dates.getDay()]+')は';
       var count=0;
       for(var j=0;j<5;j++){
-        var name = sheet_s[i][4+j*3];
-        if(name!='' && sheet_s[i][6+j*3]=='参加'){
+        var name = value_ScheduleList[i][4+j*3];
+        if(name!='' && value_ScheduleList[i][6+j*3]=='参加'){
           sentece+=name+'、';
           count++;
         }
@@ -204,35 +202,35 @@ function process() {
       if(count==0){
           sentece+='参加者が集まりませんでした'
         }
-      sheet_s[i][20] = sentece;
+      value_ScheduleList[i][20] = sentece;
     }
   }
 
   //シートに反映
-  myRange.setBackgrounds(sheet_s_color);
-  myRange.setFontColors(sheet_s_font_color);
+  range_ScheduleList.setBackgrounds(sheet_s_color);
+  range_ScheduleList.setFontColors(sheet_s_font_color);
   myRange_data.setValues(sheet_data_s);
-  myRange.setValues(sheet_s);
+  range_ScheduleList.setValues(value_ScheduleList);
 }
 
 /**　メール送信処理　**/
 function sendMail(){
   //スプレッドシートを取得
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = spreadsheet.getSheetByName('予定一覧');
-  var dataLen = sheet.getDataRange().getValues().length;
-  var myRange = sheet.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/dataLen,/*列範囲(1~)*/21);
-  var sheet_s = myRange.getValues();
+  var sheet_ScheduleList = spreadsheet.getSheetByName('予定一覧');
+  var dataLen = sheet_ScheduleList.getDataRange().getValues().length;
+  var range_ScheduleList = sheet_ScheduleList.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/dataLen,/*列範囲(1~)*/21);
+  var value_ScheduleList = range_ScheduleList.getValues();
 
   var nowdate = new Date();
 
   for(var i = 0; i < dataLen; i++) {
-    var status = sheet_s[i][19];
-    var day = new Date(sheet_s[i][0]);
-    var names = sheet_s[i][20];
-    var basyo = sheet_s[i][3];
-    var t_stert = sheet_s[i][1];
-    var t_end = sheet_s[i][2];
+    var status = value_ScheduleList[i][19];
+    var day = new Date(value_ScheduleList[i][0]);
+    var names = value_ScheduleList[i][20];
+    var basyo = value_ScheduleList[i][3];
+    var t_stert = value_ScheduleList[i][1];
+    var t_end = value_ScheduleList[i][2];
 
     if(day.getMonth()==nowdate.getMonth() && day.getDate()==nowdate.getDate()){
       //メールの件名
@@ -241,7 +239,7 @@ function sendMail(){
       const body = '本日'+names+'が'+basyo+'で活動予定です。'+'時間は'+t_stert+'~'+t_end+'です。';
       
       //メールを送信する
-      GmailApp.sendEmail('', subject, body);
+      GmailApp.sendEmail('メールアドレス', subject, body);
     }  
   }
 };
