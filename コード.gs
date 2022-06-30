@@ -214,6 +214,46 @@ function process() {
   range_ScheduleList.setValues(value_ScheduleList);
 }
 
+function today() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet_ScheduleList = spreadsheet.getSheetByName('予定一覧');
+  var length_ScheduleList = sheet_ScheduleList.getDataRange().getValues().length;
+  var range_ScheduleList = sheet_ScheduleList.getRange(2,1,length_ScheduleList,21);
+  var value_ScheduleList = range_ScheduleList.getValues();
+
+  var sheet_Today = spreadsheet.getSheetByName('本日の活動');
+  var length_Today = 20; //sheet_Today.getDataRange().getValues().length;
+  var range_Today = sheet_Today.getRange(1,1,length_Today,4);
+  var value_Today = range_Today.getValues();
+
+  var nowdate = new Date();
+
+  for(var i = 0; i < length_ScheduleList; i++) {
+    var day = new Date(value_ScheduleList[i][0]);
+    var names = value_ScheduleList[i][20];
+    var basyo = value_ScheduleList[i][3];
+    var t_stert = value_ScheduleList[i][1];
+    var t_end = value_ScheduleList[i][2];
+    var dayteSentense=day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate()+'('+arr_day[day.getDay()]+')'
+
+    if(day.getMonth()==nowdate.getMonth() && day.getDate()==nowdate.getDate()){
+      value_Today[0]=['本日の日付','活動場所','開始時間','終了時間'];
+      value_Today[1]=[dayteSentense,basyo,t_stert,t_end];
+      var count=0;
+      for(var j=0;j<5;j++){
+        var name = value_ScheduleList[i][4+j*3];
+        if(name!='' && value_ScheduleList[i][6+j*3]=='参加'){
+          value_Today[3+count*3]=['活動予定者'+(count+1),'確認','',''];
+          value_Today[4+count*3]=[name,'','',''];
+          count++;
+        }
+      }
+      
+    } 
+  }
+  range_Today.setValues(value_Today);
+}
+
 /**　メール送信処理　**/
 function sendMail(){
   //スプレッドシートを取得
