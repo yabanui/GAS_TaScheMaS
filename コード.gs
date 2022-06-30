@@ -54,19 +54,20 @@ function initialization() {
   cell.setDataValidation(rule);
 
   
-  sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1,/*行範囲(1~)*/1,/*列範囲(1~)*/4).setBackground(color[1][0]);
+  sheet_ScheduleList.getRange(1,1,1,4).setBackground(color[1][0]);
   for(var i=0;i<5;i++){
-    sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/5+i*3,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setBackground(color[i][0]);
-    sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/6+i*3,/*行範囲(1~)*/1,/*列範囲(1~)*/2).setBackground(color[i][1]);
-  }
-  for(var i=0;i<21;i++){
-    sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setValue(tags[i]);
-    sheet_ScheduleList.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setHorizontalAlignment('center');
+    sheet_ScheduleList.getRange(1,5+i*3,1,1).setBackground(color[i][0]);
+    sheet_ScheduleList.getRange(1,6+i*3,1,2).setBackground(color[i][1]);
   }
 
+  //枠名記入
+  for(var i=0;i<21;i++){
+    sheet_ScheduleList.getRange(1,1+i,1,1).setValue(tags[i]);
+    sheet_ScheduleList.getRange(1,1+i,1,1).setHorizontalAlignment('center');
+  }
   for(var i=0;i<10;i++){
-    sheet_Data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setValue(tags2[i]);
-    sheet_Data.getRange(/*始行(1,2,3)*/1,/*始列(A,B,C)*/1+i,/*行範囲(1~)*/1,/*列範囲(1~)*/1).setHorizontalAlignment('center');
+    sheet_Data.getRange(1,1+i,1,1).setValue(tags2[i]);
+    sheet_Data.getRange(1,1+i,1,1).setHorizontalAlignment('center');
   }
 
   //縦線設定
@@ -87,7 +88,7 @@ function process() {
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   var sheet_ScheduleList = spreadsheet.getSheetByName('予定一覧');
   var length_ScheduleList = sheet_ScheduleList.getDataRange().getValues().length;
-  var range_ScheduleList = sheet_ScheduleList.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/length_ScheduleList,/*列範囲(1~)*/21);
+  var range_ScheduleList = sheet_ScheduleList.getRange(2,1,length_ScheduleList,21);
   var value_ScheduleList = range_ScheduleList.getValues();
 
   var color_BG = range_ScheduleList.getValues();
@@ -95,7 +96,7 @@ function process() {
 
   var sheet_Data = spreadsheet.getSheetByName('データ');
   var length_Data = sheet_Data.getDataRange().getValues().length;
-  var range_Data = sheet_Data.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/length_Data,/*列範囲(1~)*/6);
+  var range_Data = sheet_Data.getRange(2,1,length_Data,6);
   var value_Data = range_Data.getValues();
 
   //色を入れる変数として初期化
@@ -219,7 +220,7 @@ function sendMail(){
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   var sheet_ScheduleList = spreadsheet.getSheetByName('予定一覧');
   var length_ScheduleList = sheet_ScheduleList.getDataRange().getValues().length;
-  var range_ScheduleList = sheet_ScheduleList.getRange(/*始行(1,2,3)*/2,/*始列(A,B,C)*/1,/*行範囲(1~)*/length_ScheduleList,/*列範囲(1~)*/21);
+  var range_ScheduleList = sheet_ScheduleList.getRange(2,1,length_ScheduleList,21);
   var value_ScheduleList = range_ScheduleList.getValues();
 
   var nowdate = new Date();
